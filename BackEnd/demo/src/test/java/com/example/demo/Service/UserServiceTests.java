@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.example.demo.Dto.UserRequest;
-import com.example.demo.Dto.UserResponse;
+import com.example.demo.DTO.UserRequest;
+import com.example.demo.DTO.UserResponse;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.UserRepository;
 

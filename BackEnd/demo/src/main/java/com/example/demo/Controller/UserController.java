@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.Dto.UserRequest;
-import com.example.demo.Dto.UserResponse;
+import com.example.demo.DTO.UserRequest;
+import com.example.demo.DTO.UserResponse;
 import com.example.demo.Service.UserService;
 
 @RestController

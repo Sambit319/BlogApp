@@ -1,4 +1,4 @@
-package main.java.com.example.demo.Controller;
+package com.example.demo.Controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.demo.Dto.BlogRequest;
-import com.example.demo.Dto.BlogResponse;
+import com.example.demo.DTO.BlogRequest;
+import com.example.demo.DTO.BlogResponse;
 import com.example.demo.Service.BlogService;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -88,6 +88,73 @@ class BlogControllerTests {
                 .andExpect(jsonPath("$.error")
                         .value("Post content must be less than 500 characters"));
 
+        verifyNoInteractions(blogService);
+    }
+
+    @Test
+    void createBlogRejectsMissingTitle() throws Exception {
+        mockMvc.perform(post("/api/blogs")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"content\":\"Test content\",\"author\":\"a\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Post title must not be empty"));
+        verifyNoInteractions(blogService);
+    }
+
+    @Test
+    void createBlogRejectsBlankTitle() throws Exception {
+        mockMvc.perform(post("/api/blogs")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\":\"   \",\"content\":\"Test content\",\"author\":\"a\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Post title must not be empty"));
+        verifyNoInteractions(blogService);
+    }
+
+    @Test
+    void createBlogChecksTitleBeforeContent() throws Exception {
+        mockMvc.perform(post("/api/blogs")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\":\"\",\"content\":\"\",\"author\":\"a\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Post title must not be empty"));
+        verifyNoInteractions(blogService);
+    }
+
+    @Test
+    void createBlogAccepts499CharacterContent() throws Exception {
+        when(blogService.createBlog(any(BlogRequest.class))).thenReturn(BLOG_RESPONSE);
+        mockMvc.perform(post("/api/blogs")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\":\"t\",\"content\":\"" + "a".repeat(499) + "\",\"author\":\"a\"}"))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    void createBlogWithEmptyBodyReturnsBadRequest() throws Exception {
+        mockMvc.perform(post("/api/blogs")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+        verifyNoInteractions(blogService);
+    }
+
+    @Test
+    void updateBlogRejectsMissingTitle() throws Exception {
+        mockMvc.perform(put("/api/blogs/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"content\":\"Test content\",\"author\":\"a\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Post title must not be empty"));
+        verifyNoInteractions(blogService);
+    }
+
+    @Test
+    void updateBlogRejectsBlankTitle() throws Exception {
+        mockMvc.perform(put("/api/blogs/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\":\" \",\"content\":\"Test content\",\"author\":\"a\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Post title must not be empty"));
         verifyNoInteractions(blogService);
     }
 

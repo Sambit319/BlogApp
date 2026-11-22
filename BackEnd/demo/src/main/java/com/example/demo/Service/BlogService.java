@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Dto.BlogRequest;
-import com.example.demo.Dto.BlogResponse;
+import com.example.demo.DTO.BlogRequest;
+import com.example.demo.DTO.BlogResponse;
 import com.example.demo.Model.Blog;
 import com.example.demo.Repository.BlogRepository;
 

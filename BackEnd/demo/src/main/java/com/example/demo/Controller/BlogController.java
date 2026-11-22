@@ -1,4 +1,4 @@
-package main.java.com.example.demo.Controller;
+package com.example.demo.Controller;
 
 import java.util.List;
 import java.util.Map;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.Dto.BlogRequest;
-import com.example.demo.Dto.BlogResponse;
+import com.example.demo.DTO.BlogRequest;
+import com.example.demo.DTO.BlogResponse;
 import com.example.demo.Service.BlogService;
 
 @RestController
@@ -33,6 +33,12 @@ public class BlogController {
 
     // Returns an error message if the post is invalid, or null if it is valid
     private String validate(BlogRequest request) {
+        if (request == null) {
+            return "Request body must not be empty";
+        }
+        if (request.getTitle() == null || request.getTitle().isBlank()) {
+            return "Post title must not be empty";
+        }
         if (request.getContent() == null || request.getContent().isBlank()) {
             return "Post content must not be empty";
         }

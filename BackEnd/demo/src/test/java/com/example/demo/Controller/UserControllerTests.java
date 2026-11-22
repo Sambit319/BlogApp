@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.demo.Dto.UserRequest;
-import com.example.demo.Dto.UserResponse;
+import com.example.demo.DTO.UserRequest;
+import com.example.demo.DTO.UserResponse;
 import com.example.demo.Service.UserService;
 
 import static org.mockito.ArgumentMatchers.any;

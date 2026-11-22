@@ -1,4 +1,4 @@
-package com.example.demo.Dto;
+package com.example.demo.DTO;
 
 import com.example.demo.Model.Blog;
 
